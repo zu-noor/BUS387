@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF SideStepper</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB, #4682B4);
+            overflow: hidden;
+        }
+        
+        #road {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #555;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .lane-divider {
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #fff 0%, #fff 10%, transparent 10%, transparent 100%);
+            background-size: 5px 60px;
+            background-repeat: repeat-y;
+        }
+        
+        .lane {
+            width: 33%;
+            height: 100%;
+        }
+        
+        #player {
+            position: absolute;
+            bottom: 100px;
+            width: 30px;
+            height: 60px;
+            z-index: 10;
+        }
+        
+        .player-head {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FFD700;
+            position: absolute;
+            top: 0;
+            left: 5px;
+        }
+        
+        .player-body {
+            width: 16px;
+            height: 25px;
+            background: #FF6347;
+            position: absolute;
+            top: 20px;
+            left: 7px;
+        }
+        
+        .player-leg-left {
+            width: 7px;
+            height: 20px;
+            background: #4169E1;
+            position: absolute;
+            top: 45px;
+            left: 7px;
+        }
+        
+        .player-leg-right {
+            width: 7px;
+            height: 20px;
+            background: #4169E1;
+            position: absolute;
+            top: 45px;
+            left: 17px;
+        }
+        
+        .player-arm-left {
+            width: 5px;
+            height: 15px;
+            background: #FF6347;
+            position: absolute;
+            top: 25px;
+            left: 2px;
+            transform: rotate(-15deg);
+        }
+        
+        .player-arm-right {
+            width: 5px;
+            height: 15px;
+            background: #FF6347;
+            position: absolute;
+            top: 25px;
+            left: 23px;
+            transform: rotate(15deg);
+        }
+        
+        .obstacle {
+            position: absolute;
+            font-size: 32px;
+            z-index: 5;
+        }
+        
+        #title {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+        }
+        
+        #hud {
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 20;
+        }
+        
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 36px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+        
+        #message {
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        #instructions {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            line-height: 1.5;
+            max-width: 80%;
+            text-align: center;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        #finish-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 20px,
+                #fff 20px,
+                #fff 40px
+            );
+            z-index: 8;
+            display: none;
+        }
+        
+        .key-instruction {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="title">San Francisco Side-Stepper</div>
+        <div id="road">
+            <div class="lane" id="lane-left"></div>
+            <div class="lane-divider"></div>
+            <div class="lane" id="lane-center"></div>
+            <div class="lane-divider"></div>
+            <div class="lane" id="lane-right"></div>
+        </div>
+        <div id="finish-line"></div>
+        <div id="player">
+            <div class="player-head"></div>
+            <div class="player-body"></div>
+            <div class="player-leg-left"></div>
+            <div class="player-leg-right"></div>
+            <div class="player-arm-left"></div>
+            <div class="player-arm-right"></div>
+        </div>
+        <div id="hud">
+            Distance: 0/5000m &nbsp;&nbsp;&nbsp; Hits: 0/5
+        </div>
+        <div id="overlay">
+            <div id="message">SF SideStepper</div>
+            <div id="instructions">
+                <p><span class="key-instruction">←/→</span> Switch lanes</p>
+                <p><span class="key-instruction">Spacebar</span> Jump</p>
+                <p>Objective: Reach 5000m</p>
+                <p>Warning: Game over at 5 hits!</p>
+            </div>
+            <button id="restart-button">Start Game</button>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        const gameContainer = document.getElementById('game-container');
+        const player = document.getElementById('player');
+        const road = document.getElementById('road');
+        const hud = document.getElementById('hud');
+        const overlay = document.getElementById('overlay');
+        const message = document.getElementById('message');
+        const restartButton = document.getElementById('restart-button');
+        
+        // Game state
+        let gameRunning = false;
+        let distance = 0;
+        let hits = 0;
+        let speed = 200; // pixels per second (starting speed)
+        let currentLane = 1; // 0=left, 1=center, 2=right
+        let isJumping = false;
+        let obstacles = [];
+        let lastTime = 0;
+        let obstacleSpawnInterval = 1200; // Reduced from 2000ms for higher frequency
+        let lastObstacleTime = 0;
+        let animationFrameId = null;
+        const DISTANCE_GOAL = 5000; // Target is 5000m
+        const GAME_DURATION = 60; // Target duration is 60 seconds (1 minute)
+        const DISTANCE_INCREMENT = DISTANCE_GOAL / GAME_DURATION; // Distance to add per second
+        
+        // Lane positions - adjusted for the road being 100% width now
+        const lanePositions = [
+            gameContainer.clientWidth * 0.165 - 15, // left lane
+            gameContainer.clientWidth * 0.5 - 15, // center lane
+            gameContainer.clientWidth * 0.835 - 15 // right lane
+        ];
+        
+        // Initialize game
+        function initGame() {
+            // Set initial player position
+            player.style.left = lanePositions[currentLane] + 'px';
+            
+            // Reset game state
+            distance = 0;
+            hits = 0;
+            speed = 200;
+            currentLane = 1;
+            isJumping = false;
+            
+            // Hide finish line
+            document.getElementById('finish-line').style.display = 'none';
+            
+            // Clear any existing obstacles
+            obstacles.forEach(obstacle => {
+                if (obstacle.element && obstacle.element.parentNode) {
+                    obstacle.element.parentNode.removeChild(obstacle.element);
+                }
+            });
+            obstacles = [];
+            
+            // Clear any confetti
+            const confetti = document.querySelectorAll('div:not([id])');
+            confetti.forEach(element => {
+                if (element.parentNode === gameContainer && !element.className.includes('lane') && 
+                    !element.className.includes('player')) {
+                    element.remove();
+                }
+            });
+            
+            // Update HUD
+            updateHUD();
+            
+            // Start game
+            gameRunning = true;
+            lastTime = performance.now();
+            lastObstacleTime = performance.now();
+            
+            // Start game loop
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            animationFrameId = requestAnimationFrame(gameLoop);
+            
+            // Hide overlay
+            overlay.style.display = 'none';
+        }
+        
+        // Game loop
+        function gameLoop(timestamp) {
+            if (!gameRunning) return;
+            
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+            
+            // Update distance based on target duration (1 minute)
+            distance += DISTANCE_INCREMENT * deltaTime / 1000;
+            
+            // Increase difficulty over time
+            if (distance > 0) {
+                // Calculate progress as percentage of total distance
+                let progress = distance / DISTANCE_GOAL;
+                
+                // Increase speed gradually (from 200 to 800)
+                speed = 200 + Math.min(600, 600 * progress);
+                
+                // Decrease obstacle spawn interval (from 1200ms to 200ms) - much more frequent poops
+                obstacleSpawnInterval = Math.max(200, 1200 - 1000 * progress);
+            }
+            
+            // Spawn obstacles
+            if (timestamp - lastObstacleTime > obstacleSpawnInterval) {
+                // 40% chance to spawn two poops at once when further in the game
+                const spawnTwo = Math.random() < 0.4 * (distance / DISTANCE_GOAL);
+                
+                spawnObstacle();
+                
+                if (spawnTwo) {
+                    // Find a different lane for the second poop
+                    let usedLanes = new Set(obstacles.slice(-1).map(o => o.lane));
+                    let availableLanes = [0, 1, 2].filter(l => !usedLanes.has(l));
+                    
+                    if (availableLanes.length > 0) {
+                        // Pick a random lane from available ones
+                        let secondLane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
+                        spawnObstacleInLane(secondLane);
+                    }
+                }
+                
+                lastObstacleTime = timestamp;
+            }
+            
+            // Update obstacles
+            updateObstacles(deltaTime);
+            
+            // Check collisions
+            checkCollisions();
+            
+            // Check win condition
+            if (distance >= DISTANCE_GOAL) {
+                showFinishLine();
+                setTimeout(() => endGame(true), 1000);
+                return;
+            }
+            
+            // Update HUD
+            updateHUD();
+            
+            // Continue game loop
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+        
+        // Spawn obstacle
+        function spawnObstacle() {
+            const lane = Math.floor(Math.random() * 3);
+            spawnObstacleInLane(lane);
+        }
+        
+        // Spawn obstacle in specific lane
+        function spawnObstacleInLane(lane) {
+            const element = document.createElement('div');
+            element.className = 'obstacle';
+            element.textContent = '💩';
+            element.style.left = (lanePositions[lane] + 5) + 'px';
+            element.style.top = '-50px';
+            element.style.zIndex = '9'; // Ensure obstacles are under the player but above the road
+            gameContainer.appendChild(element);
+            
+            obstacles.push({
+                element: element,
+                lane: lane,
+                y: -50
+            });
+        }
+        
+        // Update obstacles
+        function updateObstacles(deltaTime) {
+            const obstaclesRemove = [];
+            
+            obstacles.forEach((obstacle, index) => {
+                obstacle.y += speed * deltaTime / 1000;
+                obstacle.element.style.top = obstacle.y + 'px';
+                
+                // Remove obstacles that are off-screen
+                if (obstacle.y > gameContainer.clientHeight) {
+                    obstaclesRemove.push(index);
+                    gameContainer.removeChild(obstacle.element);
+                }
+            });
+            
+            // Remove obstacles from array (in reverse to avoid index issues)
+            for (let i = obstaclesRemove.length - 1; i >= 0; i--) {
+                obstacles.splice(obstaclesRemove[i], 1);
+            }
+        }
+        
+        // Check for collisions
+        function checkCollisions() {
+            if (isJumping) return; // No collisions while jumping
+            
+            const playerRect = player.getBoundingClientRect();
+            
+            obstacles.forEach(obstacle => {
+                const obstacleRect = obstacle.element.getBoundingClientRect();
+                
+                if (
+                    obstacle.lane === currentLane &&
+                    obstacleRect.bottom >= playerRect.top &&
+                    obstacleRect.top <= playerRect.bottom
+                ) {
+                    // Collision detected
+                    hits++;
+                    
+                    // Remove the obstacle
+                    gameContainer.removeChild(obstacle.element);
+                    obstacles = obstacles.filter(o => o !== obstacle);
+                    
+                    // Flash player red
+                    document.querySelector('.player-head').style.backgroundColor = '#FF0000';
+                    document.querySelector('.player-body').style.backgroundColor = '#FF0000';
+                    setTimeout(() => {
+                        document.querySelector('.player-head').style.backgroundColor = '#FFD700';
+                        document.querySelector('.player-body').style.backgroundColor = '#FF6347';
+                    }, 200);
+                    
+                    // Check game over
+                    if (hits >= 5) {
+                        endGame(false);
+                    }
+                }
+            });
+        }
+        
+        // Update HUD
+        function updateHUD() {
+            hud.innerHTML = 
+                `Distance: ${Math.floor(distance)}/5000 m<br>` +
+                `Hits: ${hits}/5`;
+        }
+        
+        // Show finish line when reaching the goal
+        function showFinishLine() {
+            const finishLine = document.getElementById('finish-line');
+            finishLine.style.display = 'block';
+            
+            // Create confetti effect for win
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = '50%';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `-20px`;
+                confetti.style.zIndex = '30';
+                gameContainer.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    { transform: 'translateY(0)', opacity: 1 },
+                    { transform: `translateY(${Math.random() * 500 + 300}px) translateX(${(Math.random() - 0.5) * 300}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 2000,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+                
+                animation.onfinish = () => confetti.remove();
+            }
+            
+            gameRunning = false;
+        }
+        
+        // End game
+        function endGame(win) {
+            gameRunning = false;
+            
+            // Show overlay with appropriate message
+            overlay.style.display = 'flex';
+            document.getElementById('instructions').style.display = 'none';
+            
+            if (win) {
+                message.innerHTML = 'You crossed the finish line! 🏆<br>Final Distance: ' + Math.floor(distance) + ' m';
+                restartButton.textContent = 'Play Again';
+            } else {
+                message.innerHTML = 'Game Over<br>You reached: ' + Math.floor(distance) + ' m';
+                restartButton.textContent = 'Retry';
+            }
+        }
+        
+        // Handle key presses
+        function handleKeyDown(e) {
+            if (!gameRunning) return;
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                    if (currentLane > 0) {
+                        currentLane--;
+                        player.style.left = lanePositions[currentLane] + 'px';
+                        // Add running animation to the left
+                        animateRunning('left');
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (currentLane < 2) {
+                        currentLane++;
+                        player.style.left = lanePositions[currentLane] + 'px';
+                        // Add running animation to the right
+                        animateRunning('right');
+                    }
+                    break;
+                case ' ': // Space bar
+                    if (!isJumping) {
+                        jump();
+                    }
+                    break;
+            }
+        }
+        
+        // Add running animation when moving
+        function animateRunning(direction) {
+            // Don't animate if jumping
+            if (isJumping) return;
+            
+            const leftLeg = document.querySelector('.player-leg-left');
+            const rightLeg = document.querySelector('.player-leg-right');
+            
+            // Reset any existing animations
+            leftLeg.style.animation = '';
+            rightLeg.style.animation = '';
+            
+            // Trigger reflow to restart animation
+            void leftLeg.offsetWidth;
+            void rightLeg.offsetWidth;
+            
+            // Apply running animations
+            if (direction === 'left') {
+                leftLeg.style.transform = 'rotate(20deg)';
+                rightLeg.style.transform = 'rotate(-10deg)';
+            } else {
+                leftLeg.style.transform = 'rotate(-10deg)';
+                rightLeg.style.transform = 'rotate(20deg)';
+            }
+            
+            // Reset legs after animation
+            setTimeout(() => {
+                if (!isJumping) {
+                    leftLeg.style.transform = 'rotate(0deg)';
+                    rightLeg.style.transform = 'rotate(0deg)';
+                }
+            }, 150);
+        }
+        
+        // Jump function - optimized to go over obstacles entirely
+        function jump() {
+            isJumping = true;
+            
+            // Add jumping animation class
+            player.classList.add('jumping');
+            
+            // Animate jump - higher and longer
+            player.style.transition = 'bottom 0.5s cubic-bezier(0.33, 1, 0.68, 1)';
+            player.style.bottom = '250px'; // Jump higher
+            
+            // Animate legs for jumping
+            document.querySelector('.player-leg-left').style.transform = 'rotate(-20deg)';
+            document.querySelector('.player-leg-right').style.transform = 'rotate(20deg)';
+            
+            // Land after 700ms (longer airtime)
+            setTimeout(() => {
+                player.style.transition = 'bottom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                player.style.bottom = '100px'; // Return to the lowered position
+                
+                // Reset jumping state after landing animation completes
+                setTimeout(() => {
+                    isJumping = false;
+                    player.style.transition = 'left 0.2s ease-out';
+                    player.classList.remove('jumping');
+                    
+                    // Reset leg positions
+                    document.querySelector('.player-leg-left').style.transform = 'rotate(0deg)';
+                    document.querySelector('.player-leg-right').style.transform = 'rotate(0deg)';
+                }, 300);
+            }, 400);
+        }
+        
+        // Handle focus events for pausing/resuming
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                // Pause game when tab loses focus
+                if (gameRunning) {
+                    gameRunning = false;
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                    }
+                }
+            } else {
+                // Resume game when tab regains focus
+                if (!gameRunning && overlay.style.display === 'none') {
+                    gameRunning = true;
+                    lastTime = performance.now();
+                    animationFrameId = requestAnimationFrame(gameLoop);
+                }
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        restartButton.addEventListener('click', initGame);
+        
+        // On resize, recalculate lane positions
+        window.addEventListener('resize', () => {
+            lanePositions[0] = gameContainer.clientWidth * 0.165 - 15;
+            lanePositions[1] = gameContainer.clientWidth * 0.5 - 15;
+            lanePositions[2] = gameContainer.clientWidth * 0.835 - 15;
+            player.style.left = lanePositions[currentLane] + 'px';
+        });
+        
+        // Initialize game elements
+        player.style.left = lanePositions[currentLane] + 'px';
+        overlay.style.display = 'flex';
+        
+        // Reset game elements to starting positions
+        document.getElementById('instructions').style.display = 'block';
+    </script>
+</body>
+</html>
