@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Notes & To-Do App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+  <header>
+    <h1>Notes & To-Do App</h1>
+    <div class="theme-toggle">
+      <span>Light</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch">
+        <span class="slider round"></span>
+      </label>
+      <span>Dark</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="left-panel">
+      <div class="note-controls">
+        <button id="new-note-btn">+ New Note</button>
+        <button id="new-todo-btn">+ New To-Do List</button>
+      </div>
+      <div id="notes-list" class="notes-list">
+        <!-- Notes list will be populated dynamically -->
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div id="note-editor" class="note-editor">
+        <input type="text" id="note-title" placeholder="Title">
+        
+        <div class="color-picker">
+          <span>Color: </span>
+          <div class="color-option red" data-color="red"></div>
+          <div class="color-option blue" data-color="blue"></div>
+          <div class="color-option green" data-color="green"></div>
+          <div class="color-option purple" data-color="purple"></div>
+        </div>
+        
+        <div class="editor-controls">
+          <button id="bold-btn" class="format-btn">B</button>
+          <button id="italic-btn" class="format-btn">I</button>
+          <button id="underline-btn" class="format-btn">U</button>
+        </div>
+        
+        <div id="note-content" class="note-content" contenteditable="true"></div>
+        
+        <div class="note-actions">
+          <button id="save-note-btn">Save</button>
+          <button id="delete-note-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
