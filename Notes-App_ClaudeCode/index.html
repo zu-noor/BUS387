@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+  <div class="app-container d-flex flex-column vh-100">
+    <!-- Header -->
+    <header class="app-header d-flex justify-content-between align-items-center px-3 py-2">
+      <div class="d-flex align-items-center">
+        <h1 class="app-title mb-0">Notes</h1>
+      </div>
+      <div class="theme-toggle d-flex align-items-center">
+        <i class="bi bi-sun-fill me-2"></i>
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input" type="checkbox" id="theme-switch">
+        </div>
+        <i class="bi bi-moon-fill ms-2"></i>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="app-content flex-grow-1 d-flex">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header p-3 d-flex justify-content-between align-items-center">
+          <div class="sidebar-count">
+            <span id="notes-count">0</span> Notes
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-sm btn-outline-secondary rounded-circle" type="button" id="new-note-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="new-note-dropdown">
+              <li><button class="dropdown-item" id="new-note-btn"><i class="bi bi-file-earmark-text me-2"></i>New Note</button></li>
+              <li><button class="dropdown-item" id="new-todo-btn"><i class="bi bi-check2-square me-2"></i>New To-Do List</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="search-bar p-3 pb-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-transparent border-end-0">
+              <i class="bi bi-search"></i>
+            </span>
+            <input type="text" class="form-control border-start-0" id="search-notes" placeholder="Search">
+          </div>
+        </div>
+        <div id="notes-list" class="notes-list overflow-auto">
+          <!-- Notes will be populated dynamically -->
+          <div class="empty-notes text-center py-5 text-muted">
+            <i class="bi bi-journal-text fs-1"></i>
+            <p class="mt-2">No notes yet</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <div class="editor-container flex-grow-1">
+        <div id="note-editor" class="h-100 d-flex flex-column p-4">
+          <div class="editor-header mb-3 d-flex justify-content-between">
+            <div class="flex-grow-1">
+              <input type="text" class="form-control form-control-lg border-0 fw-bold" id="note-title" placeholder="Title">
+            </div>
+            <div class="editor-controls d-flex align-items-center">
+              <div class="color-picker d-flex align-items-center me-3">
+                <div class="color-option red" data-color="red"></div>
+                <div class="color-option orange" data-color="orange"></div>
+                <div class="color-option yellow" data-color="yellow"></div>
+                <div class="color-option green" data-color="green"></div>
+                <div class="color-option blue" data-color="blue"></div>
+                <div class="color-option purple" data-color="purple"></div>
+              </div>
+              <button id="delete-note-btn" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="toolbar mb-3 d-flex align-items-center">
+            <button id="bold-btn" class="btn btn-sm btn-outline-secondary me-1" title="Bold">
+              <i class="bi bi-type-bold"></i>
+            </button>
+            <button id="italic-btn" class="btn btn-sm btn-outline-secondary me-1" title="Italic">
+              <i class="bi bi-type-italic"></i>
+            </button>
+            <button id="underline-btn" class="btn btn-sm btn-outline-secondary me-1" title="Underline">
+              <i class="bi bi-type-underline"></i>
+            </button>
+            <button id="list-btn" class="btn btn-sm btn-outline-secondary me-1" title="Bulleted List">
+              <i class="bi bi-list-ul"></i>
+            </button>
+            <button id="checklist-btn" class="btn btn-sm btn-outline-secondary me-1" title="Checklist">
+              <i class="bi bi-check2-square"></i>
+            </button>
+          </div>
+          
+          <div id="note-content" class="note-content flex-grow-1 mb-3" contenteditable="true"></div>
+          
+          <div class="editor-footer d-flex justify-content-between align-items-center">
+            <div id="note-timestamp" class="text-muted small">Last edited: Just now</div>
+            <button id="save-note-btn" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
