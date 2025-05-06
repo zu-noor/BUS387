@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Zuhaira Times</title>
+  <style>
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Georgia", "Times New Roman", Times, serif;
+      background-color: #f7f7f7;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #121212;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Header styles - NY Times inspired */
+    header {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #e2e2e2;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo a {
+      font-family: "Old English Text MT", "Times New Roman", serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #121212;
+      text-decoration: none;
+      letter-spacing: -1px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-family: "Georgia", serif;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a:hover {
+      color: #666;
+    }
+
+    .nav-links a.active {
+      color: #121212;
+      font-weight: bold;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #121212;
+    }
+
+    /* Main content */
+    main {
+      padding: 2rem 0;
+      min-height: calc(100vh - 160px);
+    }
+
+    /* Page styles */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* Hero section */
+    .hero-section {
+      text-align: center;
+      padding: 3rem 1rem;
+      margin-bottom: 2rem;
+      background-color: white;
+      border-radius: 0;
+      border-top: 3px solid #121212;
+      border-bottom: 1px solid #e2e2e2;
+    }
+
+    .hero-section h1 {
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #121212;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .hero-section p {
+      font-family: "Imperial", "Georgia", serif;
+      font-size: 1.2rem;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* Featured post */
+    .featured-post-section {
+      margin-bottom: 3rem;
+    }
+
+    .featured-post-section h2 {
+      margin-bottom: 1.5rem;
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #121212;
+      border-bottom: 1px solid #e2e2e2;
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Post card */
+    .post-card {
+      background-color: white;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 2rem;
+      border: 1px solid #e2e2e2;
+    }
+
+    .post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-card.featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .post-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .post-card.featured .post-image {
+      height: 100%;
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .post-card:hover .post-image img {
+      transform: scale(1.03);
+    }
+
+    .post-content {
+      padding: 1.5rem;
+    }
+
+    .post-title {
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .post-title a {
+      color: #121212;
+      text-decoration: none;
+    }
+
+    .post-title a:hover {
+      color: #555;
+    }
+
+    .post-meta {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .post-excerpt {
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-family: "Imperial", "Georgia", serif;
+      line-height: 1.5;
+    }
+
+    .post-stats {
+      display: flex;
+      margin-bottom: 1rem;
+      color: #666;
+      font-size: 0.85rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .post-stats span {
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .read-more {
+      color: #121212;
+      font-weight: 500;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Posts grid */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Archives page */
+    .search-container {
+      margin-bottom: 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 0;
+      font-family: "Imperial", "Georgia", serif;
+    }
+
+    .year-section {
+      margin-bottom: 2rem;
+    }
+
+    .year-heading {
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.5rem;
+      color: #121212;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e2e2e2;
+      font-weight: 700;
+    }
+
+    .posts-list {
+      list-style: none;
+    }
+
+    .post-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #e2e2e2;
+    }
+
+    .post-item:last-child {
+      border-bottom: none;
+    }
+
+    .post-date {
+      min-width: 80px;
+      color: #666;
+      font-size: 0.85rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .post-title-link {
+      flex-grow: 1;
+      margin-right: 1rem;
+      font-weight: 500;
+      color: #121212;
+      font-family: "Imperial", "Georgia", serif;
+    }
+
+    /* Post detail styles */
+    .post-detail {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      border: 1px solid #e2e2e2;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: #555;
+      font-weight: 500;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .post-header {
+      padding: 2rem 2rem 0;
+    }
+
+    .post-detail-title {
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      color: #121212;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .favorite-btn {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: color 0.2s;
+    }
+
+    .favorite-btn:hover,
+    .favorite-btn.favorited {
+      color: #ffc107;
+    }
+
+    .post-body {
+      padding: 0 2rem 2rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #121212;
+      font-family: "Imperial", "Georgia", serif;
+    }
+
+    .post-body h2 {
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.75rem;
+      margin: 2rem 0 1rem;
+      color: #121212;
+      font-weight: 700;
+    }
+
+    .post-body p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Reaction bar */
+    .reaction-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding: 1rem 2rem;
+      border-top: 1px solid #e2e2e2;
+      background-color: #f9f9f9;
+    }
+
+    .reaction-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background-color: white;
+      border: 1px solid #e2e2e2;
+      color: #666;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .reaction-btn:hover {
+      background-color: #f1f1f1;
+      border-color: #ccc;
+    }
+
+    .reaction-btn.active {
+      background-color: #f1f1f1;
+      border-color: #ccc;
+      color: #121212;
+    }
+
+    .reaction-count {
+      font-weight: 500;
+    }
+
+    /* Comment section */
+    .comment-section {
+      padding: 0 2rem 2rem;
+    }
+
+    .comment-section h3 {
+      margin-bottom: 1.5rem;
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.5rem;
+      color: #121212;
+      font-weight: 700;
+      border-bottom: 1px solid #e2e2e2;
+      padding-bottom: 0.5rem;
+    }
+
+    .comments-list {
+      margin-bottom: 2rem;
+    }
+
+    .comment {
+      border: 1px solid #e2e2e2;
+      border-radius: 0;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      background-color: #f9f9f9;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .comment-date {
+      color: #666;
+      font-size: 0.85rem;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    .no-comments {
+      color: #666;
+      font-style: italic;
+      font-family: "Imperial", "Georgia", serif;
+    }
+
+    .comment-form {
+      background-color: #f9f9f9;
+      border-radius: 0;
+      padding: 1.5rem;
+      border: 1px solid #e2e2e2;
+    }
+
+    .comment-form h4 {
+      margin-bottom: 1rem;
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.25rem;
+      color: #121212;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+      font-size: 0.9rem;
+    }
+
+    input, textarea {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 0;
+      width: 100%;
+      font-size: 1rem;
+      font-family: "Imperial", "Georgia", serif;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    .btn-submit {
+      background: #121212;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-submit:hover {
+      background: #333;
+    }
+
+    /* Footer */
+    footer {
+      background-color: white;
+      padding: 1.5rem 0;
+      border-top: 1px solid #e2e2e2;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #666;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+    }
+
+    /* Travel Diary Styles */
+    .travel-map-container {
+      position: relative;
+      margin-bottom: 3rem;
+      background-color: white;
+      padding: 2rem;
+      border: 1px solid #e2e2e2;
+    }
+
+    .travel-map {
+      width: 100%;
+      height: auto;
+      border: 1px solid #e2e2e2;
+    }
+
+    .map-pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #d32f2f;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid white;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .map-pin:hover {
+      transform: translate(-50%, -50%) scale(1.2);
+      background-color: #b71c1c;
+    }
+
+    .map-pin::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #d32f2f;
+    }
+
+    .map-pin:hover::after {
+      border-top-color: #b71c1c;
+    }
+
+    .map-pin-label {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      font-family: "Franklin Gothic", "Arial", sans-serif;
+      border: 1px solid #e2e2e2;
+    }
+
+    .map-pin:hover .map-pin-label {
+      opacity: 1;
+    }
+
+    .travel-intro {
+      margin-bottom: 2rem;
+      font-family: "Imperial", "Georgia", serif;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .travel-posts-section h2 {
+      margin-bottom: 1.5rem;
+      font-family: "Cheltenham", "Georgia", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #121212;
+      border-bottom: 1px solid #e2e2e2;
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Media queries */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .logo {
+        margin-bottom: 1rem;
+      }
+      
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .nav-links li:first-child {
+        margin-left: 0;
+      }
+
+      .post-card.featured {
+        grid-template-columns: 1fr;
+      }
+      
+      .post-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .post-date {
+        margin-bottom: 0.5rem;
+      }
+      
+      .post-title-link {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">
+        <a href="#" data-page="home">The Zuhaira Times</a>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="#" class="active" data-page="home">Home</a>
+        </li>
+        <li>
+          <a href="#" data-page="travel">Travel Diary</a>
+        </li>
+        <li>
+          <a href="#" data-page="archives">Archives</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Home Page -->
+      <div class="page active" id="home-page">
+        <div class="hero-section">
+          <h1>Welcome to The Zuhaira Times</h1>
+          <p>Thoughts, stories and insights from Zuhaira's journey.</p>
+        </div>
+
+        <div class="featured-post-section">
+          <h2>Latest Post</h2>
+          <div class="post-card featured">
+            <div class="post-image">
+              <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800" alt="My Journey in Data Science">
+            </div>
+            <div class="post-content">
+              <h2 class="post-title">
+                <a href="#" class="post-link" data-id="1">My Journey in Data Science</a>
+              </h2>
+              <div class="post-meta">
+                <span class="post-date">May 15, 2023</span>
+              </div>
+              <p class="post-excerpt">From business analytics to machine learning: how I discovered my passion for extracting insights from data and the skills I've developed along the way.</p>
+              <div class="post-stats">
+                <span>24 ❤️</span>
+                <span>2 💬</span>
+              </div>
+              <a href="#" class="read-more post-link" data-id="1">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-posts-section">
+          <h2>Recent Posts</h2>
+          <div class="posts-grid">
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800" alt="My Academic Journey">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="2">My Academic Journey</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">April 22, 2023</span>
+                </div>
+                <p class="post-excerpt">Reflecting on my educational path through business and technology, and how it shaped my professional aspirations.</p>
+                <div class="post-stats">
+                  <span>18 ❤️</span>
+                  <span>1 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="2">Read More</a>
+              </div>
+            </div>
+
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=800" alt="Exploring Toronto's Tech Scene">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="3">Exploring Toronto's Tech Scene</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">March 10, 2023</span>
+                </div>
+                <p class="post-excerpt">My experiences navigating Toronto's vibrant technology ecosystem and the opportunities it presents for young professionals.</p>
+                <div class="post-stats">
+                  <span>32 ❤️</span>
+                  <span>3 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="3">Read More</a>
+              </div>
+            </div>
+
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800" alt="Balancing Work and Personal Growth">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="4">Balancing Work and Personal Growth</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">February 5, 2023</span>
+                </div>
+                <p class="post-excerpt">How I manage to pursue professional development while making time for hobbies, relationships, and self-care.</p>
+                <div class="post-stats">
+                  <span>25 ❤️</span>
+                  <span>2 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="4">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Travel Diary Page -->
+      <div class="page" id="travel-page">
+        <div class="hero-section">
+          <h1>Travel Diary</h1>
+          <p>Chronicles of adventures and discoveries around the world.</p>
+        </div>
+
+        <div class="travel-intro">
+          <p>Travel has always been one of my greatest passions. Each journey offers not just a change of scenery, but an opportunity to experience different cultures, cuisines, and perspectives. Below is an interactive map of some of my most memorable destinations. Click on any pin to read about my experiences in that location.</p>
+        </div>
+
+        <div class="travel-map-container">
+          <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?w=1200" alt="World Map" class="travel-map" id="travel-map">
+          
+          <!-- Map Pins -->
+          <div class="map-pin" style="top: 40%; left: 18%;" data-id="5">
+            <div class="map-pin-label">Nicaragua</div>
+          </div>
+          <div class="map-pin" style="top: 30%; left: 20%;" data-id="6">
+            <div class="map-pin-label">Canada</div>
+          </div>
+          <div class="map-pin" style="top: 38%; left: 48%;" data-id="7">
+            <div class="map-pin-label">Italy</div>
+          </div>
+          <div class="map-pin" style="top: 36%; left: 46%;" data-id="8">
+            <div class="map-pin-label">Switzerland</div>
+          </div>
+        </div>
+
+        <div class="travel-posts-section">
+          <h2>Recent Travels</h2>
+          <div class="posts-grid">
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1584974292709-5c2f0619971b?w=800" alt="Exploring Nicaragua's Volcanic Landscapes">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="5">Exploring Nicaragua's Volcanic Landscapes</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">January 15, 2023</span>
+                </div>
+                <p class="post-excerpt">From the colonial charm of Granada to the volcanic wonders of Ometepe Island, my journey through Nicaragua's diverse terrain.</p>
+                <div class="post-stats">
+                  <span>29 ❤️</span>
+                  <span>4 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="5">Read More</a>
+              </div>
+            </div>
+
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800" alt="Autumn in the Canadian Rockies">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="6">Autumn in the Canadian Rockies</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">October 8, 2022</span>
+                </div>
+                <p class="post-excerpt">Witnessing the breathtaking fall colors of Banff and Jasper National Parks during a memorable road trip through Alberta.</p>
+                <div class="post-stats">
+                  <span>35 ❤️</span>
+                  <span>6 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="6">Read More</a>
+              </div>
+            </div>
+
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800" alt="A Culinary Tour of Northern Italy">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="7">A Culinary Tour of Northern Italy</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">June 20, 2022</span>
+                </div>
+                <p class="post-excerpt">Savoring the authentic flavors of Lombardy, Piedmont, and Veneto while exploring historic cities and picturesque countryside.</p>
+                <div class="post-stats">
+                  <span>31 ❤️</span>
+                  <span>5 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="7">Read More</a>
+              </div>
+            </div>
+
+            <div class="post-card">
+              <div class="post-image">
+                <img src="https://images.unsplash.com/photo-1527668752968-14dc70a27c95?w=800" alt="Alpine Adventures in Switzerland">
+              </div>
+              <div class="post-content">
+                <h2 class="post-title">
+                  <a href="#" class="post-link" data-id="8">Alpine Adventures in Switzerland</a>
+                </h2>
+                <div class="post-meta">
+                  <span class="post-date">August 12, 2021</span>
+                </div>
+                <p class="post-excerpt">Hiking through the majestic Swiss Alps, exploring charming mountain villages, and experiencing the perfect blend of nature and luxury.</p>
+                <div class="post-stats">
+                  <span>42 ❤️</span>
+                  <span>8 💬</span>
+                </div>
+                <a href="#" class="read-more post-link" data-id="8">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Archives Page -->
+      <div class="page" id="archives-page">
+        <h1>Archives</h1>
+        
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search posts..." class="search-input">
+        </div>
+        
+        <div id="archives-content">
+          <div class="year-section">
+            <h2 class="year-heading">2023</h2>
+            <ul class="posts-list">
+              <li class="post-item">
+                <span class="post-date">May 15</span>
+                <a href="#" class="post-title-link post-link" data-id="1">My Journey in Data Science</a>
+                <div class="post-meta">
+                  <span>24 ❤️</span>
+                  <span>2 💬</span>
+                </div>
+              </li>
+              <li class="post-item">
+                <span class="post-date">Apr 22</span>
+                <a href="#" class="post-title-link post-link" data-id="2">My Academic Journey</a>
+                <div class="post-meta">
+                  <span>18 ❤️</span>
+                  <span>1 💬</span>
+                </div>
+              </li>
+              <li class="post-item">
+                <span class="post-date">Mar 10</span>
+                <a href="#" class="post-title-link post-link" data-id="3">Exploring Toronto's Tech Scene</a>
+                <div class="post-meta">
+                  <span>32 ❤️</span>
+                  <span>3 💬</span>
+                </div>
+              </li>
+              <li class="post-item">
+                <span class="post-date">Feb 5</span>
+                <a href="#" class="post-title-link post-link" data-id="4">Balancing Work and Personal Growth</a>
+                <div class="post-meta">
+                  <span>25 ❤️</span>
+                  <span>2 💬</span>
+                </div>
+              </li>
+              <li class="post-item">
+                <span class="post-date">Jan 15</span>
+                <a href="#" class="post-title-link post-link" data-id="5">Exploring Nicaragua's Volcanic Landscapes</a>
+                <div class="post-meta">
+                  <span>29 ❤️</span>
+                  <span>4 💬</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="year-section">
+            <h2 class="year-heading">2022</h2>
+            <ul class="posts-list">
+              <li class="post-item">
+                <span class="post-date">Oct 8</span>
+                <a href="#" class="post-title-link post-link" data-id="6">Autumn in the Canadian Rockies</a>
+                <div class="post-meta">
+                  <span>35 ❤️</span>
+                  <span>6 💬</span>
+                </div>
+              </li>
+              <li class="post-item">
+                <span class="post-date">Jun 20</span>
+                <a href="#" class="post-title-link post-link" data-id="7">A Culinary Tour of Northern Italy</a>
+                <div class="post-meta">
+                  <span>31 ❤️</span>
+                  <span>5 💬</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="year-section">
+            <h2 class="year-heading">2021</h2>
+            <ul class="posts-list">
+              <li class="post-item">
+                <span class="post-date">Aug 12</span>
+                <a href="#" class="post-title-link post-link" data-id="8">Alpine Adventures in Switzerland</a>
+                <div class="post-meta">
+                  <span>42 ❤️</span>
+                  <span>8 💬</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Detail Page -->
+      <div class="page" id="post-detail">
+        <a href="#" class="back-link" id="back-home">&larr; Back to Home</a>
+        
+        <article class="post-detail">
+          <header class="post-header">
+            <h1 class="post-detail-title" id="detail-title">Post Title</h1>
+            <div class="post-meta">
+              <span class="post-date" id="detail-date">Date</span>
+              <button class="favorite-btn" id="favorite-btn" aria-label="Add to favorites">
+                ☆
+              </button>
+            </div>
+          </header>
+          
+          <div class="post-image" id="detail-image-container">
+            <img src="/placeholder.svg" alt="" id="detail-image">
+          </div>
+          
+          <div class="post-body" id="detail-content">
+            <!-- Post content will be inserted here -->
+          </div>
+          
+          <div class="reaction-bar" id="reaction-bar">
+            <button class="reaction-btn" data-reaction="Love">
+              <span role="img" aria-label="Love">❤️</span>
+              <span class="reaction-count" id="love-count">0</span>
+            </button>
+            <button class="reaction-btn" data-reaction="Like">
+              <span role="img" aria-label="Like">👍</span>
+              <span class="reaction-count" id="like-count">0</span>
+            </button>
+            <button class="reaction-btn" data-reaction="Laugh">
+              <span role="img" aria-label="Laugh">😂</span>
+              <span class="reaction-count" id="laugh-count">0</span>
+            </button>
+            <button class="reaction-btn" data-reaction="Wow">
+              <span role="img" aria-label="Wow">😮</span>
+              <span class="reaction-count" id="wow-count">0</span>
+            </button>
+            <button class="reaction-btn" data-reaction="Sad">
+              <span role="img" aria-label="Sad">😢</span>
+              <span class="reaction-count" id="sad-count">0</span>
+            </button>
+          </div>
+          
+          <div class="comment-section">
+            <h3>Comments (<span id="comment-count">0</span>)</h3>
+            
+            <div class="comments-list" id="comments-list">
+              <!-- Comments will be inserted here -->
+              <p class="no-comments" id="no-comments">No comments yet. Be the first to comment!</p>
+            </div>
+            
+            <form class="comment-form" id="comment-form">
+              <h4>Leave a Comment</h4>
+              <div class="form-group">
+                <label for="userName">Your Name</label>
+                <input type="text" id="userName" required>
+              </div>
+              <div class="form-group">
+                <label for="commentText">Your Comment</label>
+                <textarea id="commentText" required rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn-submit">Post Comment</button>
+            </form>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="current-year">2023</span> The Zuhaira Times. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Blog data
+    const blogPosts = [
+      {
+        id: 1,
+        title: "My Journey in Data Science",
+        date: "2023-05-15",
+        excerpt: "From business analytics to machine learning: how I discovered my passion for extracting insights from data and the skills I've developed along the way.",
+        coverImage: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800",
+        content: `
+          <p>My fascination with data science began during my undergraduate studies in business. What started as a curiosity about how companies use data to make decisions quickly evolved into a passion for the field.</p>
+          
+          <h2>The Beginning</h2>
+          <p>I first encountered data analysis in my business statistics course. While many of my classmates viewed the subject as a necessary hurdle, I found myself drawn to the power of extracting meaningful insights from seemingly chaotic information. This initial spark led me to pursue additional coursework in analytics and programming.</p>
+          
+          <h2>Building Technical Skills</h2>
+          <p>Recognizing that data science requires a diverse skill set, I dedicated myself to learning:</p>
+          <ul>
+            <li>Programming languages like Python and R</li>
+            <li>Statistical analysis and hypothesis testing</li>
+            <li>Data visualization techniques</li>
+            <li>Machine learning algorithms</li>
+            <li>Database management with SQL</li>
+          </ul>
+          
+          <p>Each new skill opened doors to more complex and interesting problems. I particularly enjoyed applying these techniques to real-world datasets, seeing how theoretical concepts translated into practical insights.</p>
+          
+          <h2>Projects and Applications</h2>
+          <p>One of my most rewarding experiences was developing a predictive model for customer churn at a local business. By analyzing patterns in customer behavior, I was able to identify key factors that indicated when a customer might leave. This allowed the business to implement targeted retention strategies, resulting in a measurable decrease in customer attrition.</p>
+          
+          <p>This project reinforced my belief in the transformative potential of data science when applied thoughtfully to business challenges.</p>
+          
+          <h2>Looking Forward</h2>
+          <p>As I continue to develop my expertise in data science, I'm particularly excited about exploring deep learning and natural language processing. These cutting-edge fields present fascinating opportunities to solve complex problems and create innovative solutions.</p>
+          
+          <p>I believe that the intersection of business knowledge and technical data skills offers tremendous value in today's data-driven world. My goal is to continue bridging these domains, using data to inform strategic decisions and drive meaningful outcomes.</p>
+        `,
+        comments: [
+          {
+            id: 101,
+            userName: "DataEnthusiast",
+            text: "Your journey is inspiring! I'm just starting to learn Python for data analysis. Any resources you'd recommend for beginners?",
+            date: "2023-05-16"
+          },
+          {
+            id: 102,
+            userName: "BusinessAnalyst",
+            text: "The customer churn project sounds fascinating. Would love to hear more about the specific techniques you used!",
+            date: "2023-05-17"
+          }
+        ],
+        reactions: {
+          "Love": 12,
+          "Like": 8,
+          "Laugh": 0,
+          "Wow": 3,
+          "Sad": 0
+        },
+        likes: 24
+      },
+      {
+        id: 2,
+        title: "My Academic Journey",
+        date: "2023-04-22",
+        excerpt: "Reflecting on my educational path through business and technology, and how it shaped my professional aspirations.",
+        coverImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
+        content: `
+          <p>Education has been a transformative force in my life, opening doors to opportunities and shaping my worldview in profound ways. My academic journey has been marked by a blend of business education and technology exploration.</p>
+          
+          <h2>Undergraduate Studies</h2>
+          <p>I pursued my undergraduate degree in Business Administration with a focus on Information Systems. This interdisciplinary approach allowed me to develop a strong foundation in business principles while also gaining technical knowledge about how technology supports organizational objectives.</p>
+          
+          <p>Some of the most valuable courses I took included:</p>
+          <ul>
+            <li>Business Analytics</li>
+            <li>Database Management</li>
+            <li>Strategic Management</li>
+            <li>Information Systems Design</li>
+            <li>Project Management</li>
+          </ul>
+          
+          <h2>Beyond the Classroom</h2>
+          <p>While formal education provided the framework, I found that extracurricular activities and internships were equally important in my development. I participated in case competitions that challenged me to apply theoretical knowledge to real-world business problems, often under tight deadlines.</p>
+          
+          <p>My internship at a technology consulting firm was particularly eye-opening. Working alongside experienced professionals, I gained insights into how businesses leverage technology to gain competitive advantages. This experience confirmed my interest in the intersection of business and technology.</p>
+          
+          <h2>Continuous Learning</h2>
+          <p>After completing my formal education, I've remained committed to continuous learning. The rapidly evolving nature of technology means that staying current requires ongoing education. I've completed several professional certifications and regularly participate in online courses to expand my skill set.</p>
+          
+          <p>This commitment to lifelong learning has served me well, allowing me to adapt to changing industry demands and pursue new opportunities as they arise.</p>
+        `,
+        comments: [
+          {
+            id: 201,
+            userName: "GradStudent",
+            text: "I'm currently deciding between focusing on business or tech for my master's degree. Your interdisciplinary approach sounds like it offered the best of both worlds!",
+            date: "2023-04-23"
+          }
+        ],
+        reactions: {
+          "Love": 8,
+          "Like": 14,
+          "Laugh": 0,
+          "Wow": 2,
+          "Sad": 0
+        },
+        likes: 18
+      },
+      {
+        id: 3,
+        title: "Exploring Toronto's Tech Scene",
+        date: "2023-03-10",
+        excerpt: "My experiences navigating Toronto's vibrant technology ecosystem and the opportunities it presents for young professionals.",
+        coverImage: "https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=800",
+        content: `
+          <p>Toronto has emerged as one of North America's fastest-growing technology hubs, offering a dynamic ecosystem for innovation and career growth. As a young professional in this vibrant city, I've had the opportunity to explore its tech landscape and connect with its diverse community.</p>
+          
+          <h2>A Growing Tech Hub</h2>
+          <p>Toronto's technology sector has experienced remarkable growth in recent years, attracting major tech companies and fostering a thriving startup ecosystem. The city's unique blend of established financial institutions, innovative startups, and world-class academic institutions creates a fertile environment for technological advancement.</p>
+          
+          <p>What makes Toronto particularly special is its diversity. The city's multicultural character is reflected in its tech community, bringing together perspectives from around the world and fostering inclusive innovation.</p>
+          
+          <h2>Networking and Community</h2>
+          <p>One of the most valuable aspects of Toronto's tech scene is its community events and networking opportunities. From large conferences to intimate meetups, there are countless ways to connect with like-minded professionals and industry leaders.</p>
+          
+          <p>I've found particular value in specialized meetups focused on data science and business analytics. These gatherings provide opportunities to learn about cutting-edge techniques, discuss industry trends, and build meaningful professional relationships.</p>
+          
+          <h2>Career Opportunities</h2>
+          <p>For young professionals, Toronto offers diverse career paths in technology. Whether you're interested in joining an established company, working at a high-growth startup, or pursuing entrepreneurship, the city provides supportive infrastructure and resources.</p>
+          
+          <p>The presence of innovation hubs and incubators like MaRS Discovery District and DMZ further enriches the ecosystem, providing resources and support for emerging technologies and business models.</p>
+          
+          <h2>Looking Ahead</h2>
+          <p>As Toronto continues to solidify its position as a global tech hub, I'm excited about the future opportunities it will present. The city's commitment to fostering innovation, combined with its exceptional quality of life, makes it an ideal place to build a career in technology.</p>
+        `,
+        comments: [
+          {
+            id: 301,
+            userName: "TechRecruiter",
+            text: "Great insights about Toronto's tech ecosystem! The diversity here is definitely a major strength compared to other tech hubs.",
+            date: "2023-03-11"
+          },
+          {
+            id: 302,
+            userName: "StartupFounder",
+            text: "As someone building a company in Toronto, I completely agree with your assessment of the support infrastructure. The mentorship available here has been invaluable.",
+            date: "2023-03-12"
+          },
+          {
+            id: 303,
+            userName: "NewToToronto",
+            text: "I just moved to Toronto and am looking to break into the tech scene. Any specific meetup groups you'd recommend for newcomers?",
+            date: "2023-03-15"
+          }
+        ],
+        reactions: {
+          "Love": 15,
+          "Like": 12,
+          "Laugh": 0,
+          "Wow": 5,
+          "Sad": 0
+        },
+        likes: 32
+      },
+      {
+        id: 4,
+        title: "Balancing Work and Personal Growth",
+        date: "2023-02-05",
+        excerpt: "How I manage to pursue professional development while making time for hobbies, relationships, and self-care.",
+        coverImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800",
+        content: `
+          <p>In today's fast-paced professional environment, finding balance between career ambitions and personal well-being can be challenging. Over time, I've developed strategies to pursue professional growth while nurturing other important aspects of life.</p>
+          
+          <h2>Intentional Time Management</h2>
+          <p>The foundation of my approach to balance is intentional time management. Rather than simply trying to fit everything into a busy schedule, I focus on allocating time according to my priorities and energy levels.</p>
+          
+          <p>I've found that time-blocking is particularly effective. By designating specific periods for focused work, learning, exercise, and social activities, I can be fully present in each context rather than constantly feeling pulled in multiple directions.</p>
+          
+          <h2>Professional Development</h2>
+          <p>Continuous learning is essential in technology fields, but it doesn't have to come at the expense of personal time. I've integrated professional development into my routine in sustainable ways:</p>
+          <ul>
+            <li>Dedicating 30-60 minutes each morning to learning before work</li>
+            <li>Listening to industry podcasts during commutes</li>
+            <li>Participating in one focused workshop or course per quarter</li>
+            <li>Setting specific learning goals with realistic timelines</li>
+          </ul>
+          
+          <p>This approach allows me to make consistent progress without becoming overwhelmed.</p>
+          
+          <h2>Personal Interests and Relationships</h2>
+          <p>Maintaining interests outside of work provides necessary perspective and prevents burnout. I make time for creative pursuits like photography and cooking, which engage different parts of my brain and provide fulfillment in ways that professional accomplishments alone cannot.</p>
+          
+          <p>Similarly, nurturing relationships requires intentional effort. I prioritize quality time with family and friends, recognizing that these connections provide essential support and meaning.</p>
+          
+          <h2>Physical and Mental Well-being</h2>
+          <p>Physical activity and mental health practices are non-negotiable elements of my routine. Regular exercise, adequate sleep, and mindfulness practices form the foundation that makes everything else possible.</p>
+          
+          <p>I've learned that skimping on these fundamentals ultimately diminishes productivity and creativity, making them essential investments rather than optional luxuries.</p>
+          
+          <h2>Embracing Imperfection</h2>
+          <p>Perhaps most importantly, I've learned to embrace imperfection in the balancing act. Some weeks favor professional development, while others prioritize personal connections or rest. The goal isn't perfect balance at every moment, but rather a fulfilling life that honors all dimensions of well-being over time.</p>
+        `,
+        comments: [
+          {
+            id: 401,
+            userName: "WorkLifeNavigator",
+            text: "The time-blocking technique has been a game-changer for me too. It's amazing how much more present you can be when you're not mentally juggling multiple priorities.",
+            date: "2023-02-06"
+          },
+          {
+            id: 402,
+            userName: "TechMentor",
+            text: "I appreciate your point about embracing imperfection. That's something many professionals struggle with, especially in high-achievement environments.",
+            date: "2023-02-07"
+          }
+        ],
+        reactions: {
+          "Love": 10,
+          "Like": 15,
+          "Laugh": 0,
+          "Wow": 4,
+          "Sad": 0
+        },
+        likes: 25
+      },
+      {
+        id: 5,
+        title: "Exploring Nicaragua's Volcanic Landscapes",
+        date: "2023-01-15",
+        excerpt: "From the colonial charm of Granada to the volcanic wonders of Ometepe Island, my journey through Nicaragua's diverse terrain.",
+        coverImage: "https://images.unsplash.com/photo-1584974292709-5c2f0619971b?w=800",
+        content: `
+          <p>Nicaragua, often overlooked in favor of its more touristy neighbors, revealed itself to be a land of extraordinary natural beauty and rich cultural heritage. My two-week journey through this Central American gem left me with unforgettable memories and a deep appreciation for its volcanic landscapes.</p>
+          
+          <h2>Colonial Granada</h2>
+          <p>My adventure began in Granada, one of the oldest colonial cities in the Americas. With its colorful buildings, horse-drawn carriages, and stunning architecture, walking through Granada felt like stepping back in time. The city's position on the shores of Lake Nicaragua provided a perfect backdrop for sunset strolls along the waterfront.</p>
+          
+          <p>I spent my days exploring the city's historic churches, climbing the bell tower of La Merced for panoramic views, and sampling local cuisine at the bustling market. The evenings were filled with live music and conversations with locals who shared stories about their country's complex history and vibrant present.</p>
+          
+          <h2>Ometepe Island: A Volcanic Paradise</h2>
+          <p>The highlight of my trip was undoubtedly Ometepe Island, formed by two majestic volcanoes rising from Lake Nicaragua. After a scenic ferry ride, I arrived at this mystical island that the indigenous people considered sacred.</p>
+          
+          <p>The challenging hike up Volcán Concepción tested my endurance but rewarded me with breathtaking views of the lake and surrounding landscape. The lush forests, natural springs, and pre-Columbian petroglyphs added layers of discovery to each day's exploration.</p>
+          
+          <h2>Surfing in San Juan del Sur</h2>
+          <p>My journey continued to the Pacific coast and the laid-back beach town of San Juan del Sur. Despite being a novice surfer, I couldn't resist the opportunity to catch waves on Nicaragua's famous beaches. After several tumbles and laughs, I managed to stand up on the board and ride a wave to shore – a moment of pure exhilaration!</p>
+          
+          <h2>Sustainable Tourism</h2>
+          <p>Throughout my travels in Nicaragua, I was impressed by the growing emphasis on sustainable tourism. Many of the ecolodges and tour operators I encountered were committed to environmental conservation and supporting local communities. This approach allowed me to enjoy the country's natural wonders while feeling confident that my visit was contributing positively to its future.</p>
+          
+          <h2>Reflections</h2>
+          <p>Nicaragua taught me that sometimes the less traveled destinations offer the most authentic and transformative experiences. The country's combination of natural beauty, cultural richness, and warm hospitality made it a standout in my travel experiences. As I left, I carried with me not just photographs but a profound appreciation for this resilient and beautiful nation.</p>
+        `,
+        comments: [
+          {
+            id: 501,
+            userName: "AdventureSeeker",
+            text: "I've been considering Nicaragua for my next trip, and your post just convinced me! How was the local food?",
+            date: "2023-01-16"
+          },
+          {
+            id: 502,
+            userName: "VolcanoEnthusiast",
+            text: "The hike up Volcán Concepción sounds amazing! How difficult was it? Would you recommend a guide?",
+            date: "2023-01-17"
+          },
+          {
+            id: 503,
+            userName: "SustainableTraveler",
+            text: "Love your focus on sustainable tourism. Could you share some of the eco-lodges you stayed at?",
+            date: "2023-01-18"
+          },
+          {
+            id: 504,
+            userName: "PhotoJourney",
+            text: "Your descriptions paint such a vivid picture! Nicaragua is now definitely on my bucket list.",
+            date: "2023-01-20"
+          }
+        ],
+        reactions: {
+          "Love": 14,
+          "Like": 10,
+          "Laugh": 0,
+          "Wow": 5,
+          "Sad": 0
+        },
+        likes: 29
+      },
+      {
+        id: 6,
+        title: "Autumn in the Canadian Rockies",
+        date: "2022-10-08",
+        excerpt: "Witnessing the breathtaking fall colors of Banff and Jasper National Parks during a memorable road trip through Alberta.",
+        coverImage: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800",
+        content: `
+          <p>There's something magical about the Canadian Rockies in autumn. As the summer crowds thin out and the larch trees turn a brilliant gold, the mountains take on a new character that captivated me throughout my ten-day road trip through Alberta's national parks.</p>
+          
+          <h2>Banff: Where Mountains Meet Luxury</h2>
+          <p>My journey began in Banff, Canada's oldest national park and a perfect blend of wilderness and refined comfort. The iconic Fairmont Banff Springs Hotel, resembling a Scottish castle nestled among the pines, served as my base for exploring the surrounding natural wonders.</p>
+          
+          <p>Mornings were spent hiking trails adorned with golden aspens and larches, while afternoons often found me soaking in the Banff Upper Hot Springs, letting the mineral-rich waters soothe my hiking-weary muscles as I gazed out at snow-dusted mountain peaks.</p>
+          
+          <h2>Lake Louise and Moraine Lake: Turquoise Jewels</h2>
+          <p>Even in autumn, the famous turquoise waters of Lake Louise and Moraine Lake maintained their otherworldly blue hue, now framed by yellow larches and occasional early snow on the mountain peaks. The contrast of colors was simply breathtaking.</p>
+          
+          <p>The hike to the Lake Agnes Tea House rewarded me with not just stunning views but also a steaming cup of tea and freshly baked scones – a civilized touch in the wilderness that felt quintessentially Canadian.</p>
+          
+          <h2>Icefields Parkway: The Drive of a Lifetime</h2>
+          <p>The drive along the Icefields Parkway from Banff to Jasper deserves its reputation as one of the world's most scenic routes. Around every bend, a new vista of mountains, glaciers, and autumn foliage unfolded. I found myself pulling over constantly, unable to resist capturing just one more photograph.</p>
+          
+          <p>The Columbia Icefield and Athabasca Glacier provided a sobering reminder of climate change, as markers showed how far the glacier has receded over recent decades. Walking on this ancient ice was a humbling experience that connected me to the earth's deep history.</p>
+          
+          <h2>Jasper: Wilderness and Wildlife</h2>
+          <p>Jasper National Park offered a wilder, less developed experience than Banff. Here, wildlife encounters became the highlight. Early one misty morning, I watched a herd of elk grazing peacefully by the Athabasca River, their breath visible in the crisp autumn air. Later that day, a black bear ambled across a meadow of golden grasses, foraging for berries before winter's arrival.</p>
+          
+          <h2>Dark Sky Preserve</h2>
+          <p>As one of the world's largest dark sky preserves, Jasper offered astronomical wonders to complement its terrestrial beauty. On a clear night, I joined a stargazing tour, marveling at the Milky Way stretching across the sky in a way that's impossible to see from light-polluted cities. The guide's telescope revealed Saturn's rings and Jupiter's moons, adding cosmic perspective to my mountain adventure.</p>
+          
+          <h2>Reflections</h2>
+          <p>The Canadian Rockies in autumn offered a perfect balance: comfortable temperatures for hiking, fewer crowds than summer, and the spectacular addition of fall colors. This journey reminded me that sometimes the shoulder season provides the most rewarding travel experiences, revealing familiar destinations in new and unexpected ways.</p>
+        `,
+        comments: [
+          {
+            id: 601,
+            userName: "MountainLover",
+            text: "Your timing was perfect! Fall in the Rockies is magical but so brief. Did you get to see the Northern Lights while in Jasper?",
+            date: "2022-10-09"
+          },
+          {
+            id: 602,
+            userName: "CanadianExplorer",
+            text: "As a local Albertan, I'm so glad you got to experience our beautiful backyard! Next time, check out Kananaskis Country too.",
+            date: "2022-10-10"
+          },
+          {
+            id: 603,
+            userName: "PhotoEnthusiast",
+            text: "Those colors are incredible! What camera setup did you use for your trip?",
+            date: "2022-10-11"
+          },
+          {
+            id: 604,
+            userName: "WildlifeWatcher",
+            text: "Lucky you to see a bear! I've been to Jasper three times and still haven't spotted one.",
+            date: "2022-10-12"
+          },
+          {
+            id: 605,
+            userName: "StarryNightFan",
+            text: "The dark sky preserve experience sounds amazing. Adding this to my bucket list immediately!",
+            date: "2022-10-15"
+          },
+          {
+            id: 606,
+            userName: "SeasonalTraveler",
+            text: "You've convinced me to plan my next Canadian trip for autumn instead of summer. The crowds in July were overwhelming.",
+            date: "2022-10-18"
+          }
+        ],
+        reactions: {
+          "Love": 18,
+          "Like": 12,
+          "Laugh": 0,
+          "Wow": 5,
+          "Sad": 0
+        },
+        likes: 35
+      },
+      {
+        id: 7,
+        title: "A Culinary Tour of Northern Italy",
+        date: "2022-06-20",
+        excerpt: "Savoring the authentic flavors of Lombardy, Piedmont, and Veneto while exploring historic cities and picturesque countryside.",
+        coverImage: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+        content: `
+          <p>Italy has always held a special place in my heart, particularly for its extraordinary culinary traditions. My recent journey through Northern Italy was planned specifically around food experiences, and it delivered beyond my expectations with unforgettable flavors and culinary discoveries.</p>
+          
+          <h2>Milan: Beyond Fashion</h2>
+          <p>While Milan is renowned for fashion, I discovered its equally impressive food scene. My culinary adventure began with a traditional Milanese dinner featuring the city's signature dish, risotto alla Milanese. The saffron-infused golden rice, paired with a glass of Lombardy wine, set the tone for the gastronomic journey ahead.</p>
+          
+          <p>The next morning, I explored the historic Brera district, stopping at local bakeries to sample fresh pastries and the perfect espresso. A highlight was visiting the Ratanà restaurant, where Chef Cesare Battisti creates modern interpretations of traditional Lombard cuisine using locally sourced ingredients.</p>
+          
+          <h2>Turin: Chocolate and Coffee Culture</h2>
+          <p>Turin, the capital of Piedmont, surprised me with its elegant architecture and rich chocolate tradition. I spent a delightful afternoon at historic cafés like Caffè Al Bicerin, where I savored the eponymous Bicerin – a layered drink of espresso, drinking chocolate, and cream that originated in the 18th century.</p>
+          
+          <p>The city's chocolate shops offered endless temptations, from gianduiotto (hazelnut-chocolate confections) to dark chocolate infused with local Barolo wine. A guided chocolate tasting tour provided insights into Turin's 400-year history with this beloved treat.</p>
+          
+          <h2>Alba: Truffle Hunting</h2>
+          <p>No culinary tour of Piedmont would be complete without experiencing the region's famous truffles. In Alba, I joined a truffle hunter and his trained dog for an early morning expedition into the misty forests. Watching the dog expertly sniff out these underground treasures was fascinating, and learning about the sustainable harvesting practices gave me a new appreciation for these luxury ingredients.</p>
+          
+          <p>That evening, I enjoyed a truffle-focused dinner where paper-thin slices of white truffle were shaved over tajarin pasta, their earthy aroma transforming the simple dish into something transcendent. Paired with a glass of Barbaresco from a nearby vineyard, it was a meal I'll never forget.</p>
+          
+          <h2>Veneto: Vineyard Visits</h2>
+          <p>The final leg of my journey took me to the Veneto region, where I spent several days exploring the Prosecco Road. Stretching between Conegliano and Valdobbiadene, this scenic route winds through hillside vineyards producing Italy's famous sparkling wine.</p>
+          
+          <p>I visited small family-owned wineries where generations of vintners have perfected their craft. Beyond the expected wine tastings, I was invited to participate in a traditional harvest lunch with one family, sharing simple but exquisite food made from ingredients grown on their property – an authentic farm-to-table experience before that term became fashionable.</p>
+          
+          <h2>Venice: Seafood and Cicchetti</h2>
+          <p>My journey concluded in Venice, where I discovered the city's unique culinary traditions. Avoiding tourist traps, I explored the Rialto Market early in the morning, watching chefs select the freshest seafood for their restaurants. Following local advice, I embraced the Venetian tradition of cicchetti – small bites enjoyed with a glass of wine at standing-room-only bacari (wine bars).</p>
+          
+          <p>From baccalà mantecato (creamed salt cod) to sarde in saor (sweet and sour sardines), these small plates offered a delicious education in Venetian flavors and traditions. Hopping from one bacaro to another in the early evening became my favorite way to experience the city like a local.</p>
+          
+          <h2>Culinary Lessons</h2>
+          <p>Throughout my journey, I participated in cooking classes that revealed the secrets behind regional specialties. From making fresh pasta in Bologna to preparing risotto in Milan, these hands-on experiences provided skills I've continued to use at home, keeping the flavors of Italy alive in my own kitchen.</p>
+          
+          <p>What struck me most about Northern Italian cuisine was its emphasis on exceptional ingredients treated simply to highlight their natural flavors – a philosophy that transcends cooking and speaks to a way of life that values quality, tradition, and the pleasure of sharing good food with others.</p>
+        `,
+        comments: [
+          {
+            id: 701,
+            userName: "ItalyLover",
+            text: "Your description of the truffle hunting experience has me ready to book a flight! Was autumn the best season for this?",
+            date: "2022-06-21"
+          },
+          {
+            id: 702,
+            userName: "WineTaster",
+            text: "The Prosecco Road sounds amazing. Any particular small wineries you'd recommend that welcome visitors?",
+            date: "2022-06-22"
+          },
+          {
+            id: 703,
+            userName: "HomeChef",
+            text: "I'd love to know more about the cooking classes you took. Did you need to book them far in advance?",
+            date: "2022-06-25"
+          },
+          {
+            id: 704,
+            userName: "VeniceFan",
+            text: "Your approach to Venice sounds perfect. Could you share the names of a few authentic bacari you discovered?",
+            date: "2022-06-28"
+          },
+          {
+            id: 705,
+            userName: "FoodieExplorer",
+            text: "This is exactly how I like to travel - following the food! Did you find language to be a barrier in the smaller towns?",
+            date: "2022-07-01"
+          }
+        ],
+        reactions: {
+          "Love": 16,
+          "Like": 10,
+          "Laugh": 0,
+          "Wow": 5,
+          "Sad": 0
+        },
+        likes: 31
+      },
+      {
+        id: 8,
+        title: "Alpine Adventures in Switzerland",
+        date: "2021-08-12",
+        excerpt: "Hiking through the majestic Swiss Alps, exploring charming mountain villages, and experiencing the perfect blend of nature and luxury.",
+        coverImage: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?w=800",
+        content: `
+          <p>Switzerland has long been on my travel wishlist, with its picture-perfect landscapes of snow-capped mountains, emerald lakes, and charming villages. My summer journey through the Swiss Alps exceeded all expectations, offering a perfect blend of outdoor adventure, cultural experiences, and moments of pure tranquility.</p>
+          
+          <h2>Lucerne: Gateway to the Alps</h2>
+          <p>My Swiss adventure began in Lucerne, a city that beautifully balances historic charm with natural splendor. The medieval Chapel Bridge with its distinctive water tower provided a perfect introduction to the city's rich history. Exploring the well-preserved Old Town with its frescoed buildings and cozy cafés, I immediately felt the unique Swiss atmosphere – organized, pristine, yet warmly welcoming.</p>
+          
+          <p>A boat cruise on Lake Lucerne offered spectacular views of the surrounding mountains, with the legendary Mount Pilatus looming majestically in the distance. The next day, I took the world's steepest cogwheel railway up Pilatus, marveling at engineering ingenuity as much as the increasingly breathtaking views. At the summit, hiking trails led to panoramic viewpoints where the Swiss landscape unfolded in all directions.</p>
+          
+          <h2>Interlaken and the Jungfrau Region</h2>
+          <p>From Lucerne, I traveled to Interlaken, the adventure capital nestled between two alpine lakes. This region offered some of the most spectacular mountain scenery I've ever encountered. The trip to Jungfraujoch – marketed as the "Top of Europe" at 3,454 meters above sea level – was a highlight despite the considerable expense.</p>
+          
+          <p>The train journey itself was remarkable, climbing through tunnels carved into the Eiger and Mönch mountains. Emerging at the highest railway station in Europe, I stepped into a world of perpetual snow and ice, with the Aletsch Glacier stretching into the distance. The contrast between the scientific observatory, tourist facilities, and the raw power of nature created a fascinating juxtaposition.
+
+<h2>Hiking in the Bernese Oberland</h2>
+<p>While the Jungfraujoch experience was impressive, my most cherished memories came from hiking the network of trails throughout the Bernese Oberland. The trail from Männlichen to Kleine Scheidegg offered constant views of the iconic triple peaks of Eiger, Mönch, and Jungfrau, while alpine meadows filled with wildflowers and the occasional sound of cowbells created a quintessentially Swiss soundtrack.</p>
+
+<p>One particularly memorable day involved hiking from Schynige Platte to First, a challenging but rewarding route that traversed ridge lines with panoramic views of both the Jungfrau massif and the turquoise waters of Lake Brienz. The well-maintained trails, clear signage, and convenient mountain transport made it easy to tailor hikes to my ability level.</p>
+
+<h2>Zermatt and the Matterhorn</h2>
+<p>No Swiss itinerary would be complete without visiting Zermatt and the iconic Matterhorn. This car-free village maintains its alpine charm despite its popularity. Early mornings offered the best opportunity to see the Matterhorn's distinctive pyramid shape clearly before clouds typically gathered around its peak.</p>
+
+<p>The Gornergrat railway provided access to a ridge with spectacular views of the Matterhorn and surrounding glaciers. From there, I hiked down to Riffelsee, a small alpine lake that on still days perfectly reflects the Matterhorn – a photographer's dream that I was fortunate enough to capture.</p>
+
+<h2>Swiss Hospitality and Cuisine</h2>
+<p>Throughout my journey, I experienced the legendary Swiss hospitality in mountain huts, village inns, and luxury hotels alike. The cuisine was a delightful surprise, going far beyond the expected cheese fondue and chocolate (though both were exceptional). In mountain restaurants, I enjoyed rösti – a hearty potato dish perfect after a day of hiking – and in lakeside towns, fresh fish prepared with local herbs.</p>
+
+<p>One evening in a small family-run restaurant in Mürren, I experienced raclette the traditional way – a half wheel of cheese melted by a fire, then scraped onto potatoes and pickles. Paired with local white wine from the Valais region, it was a memorable meal with a view of the illuminated Alps as darkness fell.</p>
+
+<h2>Reflections</h2>
+<p>Switzerland's reputation for efficiency, cleanliness, and natural beauty is well-deserved, but what surprised me most was the sense of tranquility I found even in popular destinations. The Swiss commitment to preserving their alpine environment while making it accessible creates a sustainable model for mountain tourism.</p>
+
+<p>Though Switzerland is undeniably expensive, the quality of experiences, the excellent public transportation system, and the sheer magnificence of the landscapes made it worth every franc. As I departed, I understood why so many travelers, writers, and artists have been drawn to the Swiss Alps for centuries – their majesty leaves an indelible impression that calls you back again and again.</p>
+      `,
+      comments: [
+        {
+          id: 801,
+          userName: "MountainClimber",
+          text: "Your description of the Bernese Oberland hiking trails has me planning my next trip! Did you need any special equipment for those hikes?",
+          date: "2021-08-13"
+        },
+        {
+          id: 802,
+          userName: "SwissNative",
+          text: "As a Swiss person, I'm happy you enjoyed our country so much! Next time, visit the less touristy eastern part too - equally beautiful but more peaceful.",
+          date: "2021-08-14"
+        },
+        {
+          id: 803,
+          userName: "BudgetTraveler",
+          text: "Switzerland has always seemed too expensive for me. Any tips for experiencing it without breaking the bank?",
+          date: "2021-08-15"
+        },
+        {
+          id: 804,
+          userName: "PhotoEnthusiast",
+          text: "That Matterhorn reflection shot must have been amazing! What time of day did you visit Riffelsee?",
+          date: "2021-08-16"
+        },
+        {
+          id: 805,
+          userName: "FoodieExplorer",
+          text: "The raclette experience sounds divine! Was it very different from the raclette we get in restaurants outside Switzerland?",
+          date: "2021-08-18"
+        },
+        {
+          id: 806,
+          userName: "TrainLover",
+          text: "The Swiss train system is legendary. Was it easy to navigate between all these destinations?",
+          date: "2021-08-20"
+        },
+        {
+          id: 807,
+          userName: "SoloHiker",
+          text: "I'm considering a solo hiking trip to Switzerland. Did you feel the trails were safe for solo travelers?",
+          date: "2021-08-22"
+        },
+        {
+          id: 808,
+          userName: "AlpineAdventurer",
+          text: "Your post captures exactly why I return to Switzerland every summer. There's simply nowhere else like it!",
+          date: "2021-08-25"
+        }
+      ],
+      reactions: {
+        "Love": 20,
+        "Like": 15,
+        "Laugh": 0,
+        "Wow": 7,
+        "Sad": 0
+      },
+      likes: 42
+    }
+  ];
+
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Navigation
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const pages = document.querySelectorAll('.page');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Update active page
+        const targetPage = this.getAttribute('data-page');
+        pages.forEach(page => {
+          page.classList.remove('active');
+          if (page.id === `${targetPage}-page`) {
+            page.classList.add('active');
+          }
+        });
+
+        // Update active link
+        navLinks.forEach(navLink => {
+          navLink.classList.remove('active');
+        });
+        this.classList.add('active');
+
+        // If going back to home from post detail, make sure home is active
+        if (targetPage === 'home') {
+          document.querySelector('[data-page="home"]').classList.add('active');
+        }
+      });
+    });
+
+    // Handle post links
+    document.querySelectorAll('.post-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const postId = parseInt(this.getAttribute('data-id'));
+        showPostDetail(postId);
+      });
+    });
+
+    // Handle map pins
+    document.querySelectorAll('.map-pin').forEach(pin => {
+      pin.addEventListener('click', function(e) {
+        e.preventDefault();
+        const postId = parseInt(this.getAttribute('data-id'));
+        showPostDetail(postId);
+      });
+    });
+
+    // Back to home link
+    document.getElementById('back-home').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('post-detail').classList.remove('active');
+      
+      // Determine which page to return to based on the post type
+      const postId = currentPostId;
+      if (postId >= 5) { // Travel posts
+        document.getElementById('travel-page').classList.add('active');
+        document.querySelector('[data-page="travel"]').classList.add('active');
+      } else { // Regular posts
+        document.getElementById('home-page').classList.add('active');
+        document.querySelector('[data-page="home"]').classList.add('active');
+      }
+      
+      navLinks.forEach(navLink => {
+        if ((postId >= 5 && navLink.getAttribute('data-page') === 'travel') || 
+            (postId < 5 && navLink.getAttribute('data-page') === 'home')) {
+          navLink.classList.add('active');
+        } else {
+          navLink.classList.remove('active');
+        }
+      });
+    });
+
+    // Favorite button
+    let currentPostId = null;
+    document.getElementById('favorite-btn').addEventListener('click', function() {
+      if (!currentPostId) return;
+      
+      const favoriteKey = `favorite-${currentPostId}`;
+      const isFavorited = localStorage.getItem(favoriteKey) === 'true';
+      
+      if (isFavorited) {
+        localStorage.removeItem(favoriteKey);
+        this.textContent = '☆';
+        this.classList.remove('favorited');
+      } else {
+        localStorage.setItem(favoriteKey, 'true');
+        this.textContent = '★';
+        this.classList.add('favorited');
+      }
+    });
+
+    // Handle reactions
+    document.querySelectorAll('.reaction-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const reaction = this.getAttribute('data-reaction');
+        
+        if (!currentPostId || this.classList.contains('active')) return;
+        
+        // Get post from array
+        const post = blogPosts.find(p => p.id === currentPostId);
+        if (!post) return;
+        
+        // Update reaction
+        post.reactions[reaction]++;
+        
+        // Update UI
+        document.getElementById(`${reaction.toLowerCase()}-count`).textContent = post.reactions[reaction];
+        
+        // Disable other reaction buttons
+        document.querySelectorAll('.reaction-btn').forEach(reactionBtn => {
+          reactionBtn.classList.remove('active');
+          reactionBtn.disabled = true;
+        });
+        this.classList.add('active');
+        
+        // Save to localStorage
+        localStorage.setItem(`reaction-${currentPostId}`, reaction);
+      });
+    });
+
+    // Handle comment form submission
+    document.getElementById('comment-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!currentPostId) return;
+      
+      const userName = document.getElementById('userName').value.trim();
+      const commentText = document.getElementById('commentText').value.trim();
+      
+      if (!userName || !commentText) return;
+      
+      // Get post from array
+      const post = blogPosts.find(p => p.id === currentPostId);
+      if (!post) return;
+      
+      // Create new comment
+      const newComment = {
+        id: Date.now(),
+        userName,
+        text: commentText,
+        date: new Date().toISOString().split('T')[0]
+      };
+      
+      // Add to post comments
+      post.comments.push(newComment);
+      
+      // Update UI
+      renderComments(post.comments);
+      
+      // Reset form
+      document.getElementById('userName').value = '';
+      document.getElementById('commentText').value = '';
+      
+      // Update comment count
+      document.getElementById('comment-count').textContent = post.comments.length;
+    });
+
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      
+      if (!searchTerm) {
+        renderArchives(blogPosts);
+        return;
+      }
+      
+      const filteredPosts = blogPosts.filter(post => 
+        post.title.toLowerCase().includes(searchTerm) || 
+        post.excerpt.toLowerCase().includes(searchTerm)
+      );
+      
+      renderArchives(filteredPosts);
+    });
+
+    // Format date helper
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Function to show post detail
+    function showPostDetail(postId) {
+      const post = blogPosts.find(p => p.id === postId);
+      if (!post) return;
+      
+      currentPostId = postId;
+      
+      // Update UI
+      document.getElementById('detail-title').textContent = post.title;
+      document.getElementById('detail-date').textContent = formatDate(post.date);
+      document.getElementById('detail-image').src = post.coverImage;
+      document.getElementById('detail-image').alt = post.title;
+      document.getElementById('detail-content').innerHTML = post.content;
+      
+      // Check if favorited
+      const isFavorited = localStorage.getItem(`favorite-${postId}`) === 'true';
+      document.getElementById('favorite-btn').textContent = isFavorited ? '★' : '☆';
+      document.getElementById('favorite-btn').classList.toggle('favorited', isFavorited);
+      
+      // Update reaction counts
+      for (const [reaction, count] of Object.entries(post.reactions)) {
+        document.getElementById(`${reaction.toLowerCase()}-count`).textContent = count;
+      }
+      
+      // Check if user has already reacted
+      const userReaction = localStorage.getItem(`reaction-${postId}`);
+      document.querySelectorAll('.reaction-btn').forEach(btn => {
+        const reaction = btn.getAttribute('data-reaction');
+        
+        if (userReaction === reaction) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+        
+        btn.disabled = !!userReaction;
+      });
+      
+      // Update comments
+      renderComments(post.comments);
+      
+      // Show page
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById('post-detail').classList.add('active');
+      
+      // Update nav links
+      navLinks.forEach(link => link.classList.remove('active'));
+    }
+
+    // Function to render comments
+    function renderComments(comments) {
+      const commentsContainer = document.getElementById('comments-list');
+      document.getElementById('comment-count').textContent = comments.length;
+      
+      if (comments.length === 0) {
+        commentsContainer.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+        return;
+      }
+      
+      let html = '';
+      comments.forEach(comment => {
+        html += `
+          <div class="comment">
+            <div class="comment-header">
+              <strong>${comment.userName}</strong>
+              <span class="comment-date">${formatDate(comment.date)}</span>
+            </div>
+            <p>${comment.text}</p>
+          </div>
+        `;
+      });
+      
+      commentsContainer.innerHTML = html;
+    }
+
+    // Function to render archives
+    function renderArchives(posts) {
+      if (posts.length === 0) {
+        document.getElementById('archives-content').innerHTML = '<p class="no-results">No posts found matching your search criteria.</p>';
+        return;
+      }
+      
+      // Group posts by year
+      const postsByYear = {};
+      posts.forEach(post => {
+        const year = new Date(post.date).getFullYear();
+        if (!postsByYear[year]) {
+          postsByYear[year] = [];
+        }
+        postsByYear[year].push(post);
+      });
+      
+      // Sort years in descending order
+      const years = Object.keys(postsByYear).sort((a, b) => b - a);
+      
+      let html = '';
+      years.forEach(year => {
+        html += `<div class="year-section">
+          <h2 class="year-heading">${year}</h2>
+          <ul class="posts-list">`;
+        
+        // Sort posts in descending date order within each year
+        const yearPosts = postsByYear[year].sort((a, b) => 
+          new Date(b.date) - new Date(a.date)
+        );
+        
+        yearPosts.forEach(post => {
+          const date = new Date(post.date);
+          const month = date.toLocaleString('default', { month: 'short' });
+          const day = date.getDate();
+          
+          html += `<li class="post-item">
+            <span class="post-date">${month} ${day}</span>
+            <a href="#" class="post-title-link post-link" data-id="${post.id}">${post.title}</a>
+            <div class="post-meta">
+              <span>${post.likes} ❤️</span>
+              <span>${post.comments.length} 💬</span>
+            </div>
+          </li>`;
+        });
+        
+        html += `</ul></div>`;
+      });
+      
+      document.getElementById('archives-content').innerHTML = html;
+      
+      // Reattach event listeners
+      document.querySelectorAll('.post-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const postId = parseInt(this.getAttribute('data-id'));
+          showPostDetail(postId);
+        });
+      });
+    }
+
+    // Initialize data
+    renderArchives(blogPosts);
+  </script>
+</body>
+</html>
