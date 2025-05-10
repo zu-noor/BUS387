@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Mapbox CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <header>
+    <h1>Personal Dashboard</h1>
+    <div class="theme-toggle">
+      <span>Light</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch">
+        <span class="slider round"></span>
+      </label>
+      <span>Dark</span>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="#" class="active" data-section="dashboard">Dashboard</a></li>
+      <li><a href="#" data-section="notes">Notes</a></li>
+      <li><a href="#" data-section="blog">Blog</a></li>
+      <li><a href="#" data-section="travel">Travel Diary</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="active-section">
+      <div class="dashboard-grid">
+        <div class="dashboard-item" id="recent-notes">
+          <h2>Recent Notes</h2>
+          <div class="notes-preview">
+            <!-- Will be populated by JavaScript -->
+          </div>
+          <a href="#" class="view-more" data-section="notes">View All Notes</a>
+        </div>
+
+        <div class="dashboard-item" id="recent-posts">
+          <h2>Latest Posts</h2>
+          <div class="posts-preview">
+            <!-- Will be populated by JavaScript -->
+          </div>
+          <a href="#" class="view-more" data-section="blog">Read More</a>
+        </div>
+
+        <div class="dashboard-item" id="travel-map-preview">
+          <h2>Travel Diary</h2>
+          <div id="map-preview"></div>
+          <a href="#" class="view-more" data-section="travel">View Full Map</a>
+        </div>
+
+        <div class="dashboard-item" id="quick-actions">
+          <h2>Quick Actions</h2>
+          <button id="new-note-btn" class="action-btn">+ New Note</button>
+          <button id="new-todo-btn" class="action-btn">+ New To-Do List</button>
+          <button id="new-post-btn" class="action-btn">+ New Blog Post</button>
+          <button id="new-travel-btn" class="action-btn">+ Add Travel Point</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes Section -->
+    <section id="notes" class="hidden-section">
+      <div class="container-inner">
+        <div class="left-panel">
+          <div class="note-controls">
+            <button id="notes-new-note-btn">+ New Note</button>
+            <button id="notes-new-todo-btn">+ New To-Do List</button>
+          </div>
+          <div id="notes-list" class="notes-list">
+            <!-- Notes list will be populated dynamically -->
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div id="note-editor" class="note-editor">
+            <input type="text" id="note-title" placeholder="Title">
+            
+            <div class="color-picker">
+              <span>Color: </span>
+              <div class="color-option red" data-color="red"></div>
+              <div class="color-option blue" data-color="blue"></div>
+              <div class="color-option green" data-color="green"></div>
+              <div class="color-option purple" data-color="purple"></div>
+            </div>
+            
+            <div class="editor-controls">
+              <button id="bold-btn" class="format-btn">B</button>
+              <button id="italic-btn" class="format-btn">I</button>
+              <button id="underline-btn" class="format-btn">U</button>
+            </div>
+            
+            <div id="note-content" class="note-content" contenteditable="true"></div>
+            
+            <div class="note-actions">
+              <button id="save-note-btn">Save</button>
+              <button id="delete-note-btn">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="hidden-section">
+      <div class="blog-container">
+        <div class="hero-section">
+          <h1>My Blog</h1>
+          <p>Thoughts, stories and ideas.</p>
+        </div>
+
+        <div class="featured-post-section">
+          <h2 class="section-title">Latest Post</h2>
+          <div id="featured-post">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div class="recent-posts-section">
+          <h2 class="section-title">Recent Posts</h2>
+          <div id="blog-posts-grid" class="posts-grid">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Diary Section -->
+    <section id="travel" class="hidden-section">
+      <div class="travel-container">
+        <div class="travel-header">
+          <h2>My Travel Diary</h2>
+          <button id="add-location-btn">+ Add New Location</button>
+        </div>
+        
+        <div id="travel-map" class="full-map"></div>
+        
+        <div class="travel-entries">
+          <h3>Travel Entries</h3>
+          <div id="travel-entries-list">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="add-location-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Add New Travel Location</h3>
+      <form id="travel-location-form">
+        <div class="form-group">
+          <label for="location-name">Location Name</label>
+          <input type="text" id="location-name" required>
+        </div>
+        <div class="form-group">
+          <label for="location-date">Date Visited</label>
+          <input type="date" id="location-date" required>
+        </div>
+        <div class="form-group">
+          <label for="location-notes">Notes</label>
+          <textarea id="location-notes" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="location-img">Image URL (optional)</label>
+          <input type="url" id="location-img">
+        </div>
+        <div class="form-group">
+          <label>Coordinates</label>
+          <div class="coordinates-group">
+            <input type="number" id="location-lat" placeholder="Latitude" step="any" required>
+            <input type="number" id="location-lng" placeholder="Longitude" step="any" required>
+          </div>
+          <small>Click on the map to set coordinates or enter manually</small>
+        </div>
+        <button type="submit" class="submit-btn">Add Location</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Post Modal -->
+  <div id="add-post-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Create New Blog Post</h3>
+      <form id="blog-post-form">
+        <div class="form-group">
+          <label for="post-title">Title</label>
+          <input type="text" id="post-title" required>
+        </div>
+        <div class="form-group">
+          <label for="post-excerpt">Excerpt</label>
+          <textarea id="post-excerpt" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="post-content">Content</label>
+          <textarea id="post-content" rows="10" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="post-image">Cover Image URL</label>
+          <input type="url" id="post-image" required>
+        </div>
+        <button type="submit" class="submit-btn">Publish Post</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  
+  <!-- App Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/blog.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
